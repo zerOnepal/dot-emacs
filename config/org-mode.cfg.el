@@ -83,3 +83,22 @@
 ;; (org-install)
 ;; (require 'org-export)
 ;; (require 'org-e-man)
+
+;; org-capture
+(setq org-capture-templates
+      (quote (("t" "todo" entry (file (concat org-directory "/todos.org"))
+               "* TODO %?\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("n" "note" entry (file (concat org-directory "/notes.org"))
+               "* %? :NOTE:\n%U\n%a\n" :clock-in t :clock-resume t)
+              ("j" "Journal" entry (file+datetree (concat org-directory "/diary.org"))
+               "* %?\n%U\n" :clock-in t :clock-resume t)
+			  ("y" "youtube-me" entry (file (concat org-directory "/youtube-dl.org"))  "* %?")
+			  ("c" "CloudFactory" entry (file+datetree (concat org-directory "/cloudfactory.org"))
+			   "* %?\n%U\n" :clock-in t :clock-resume t)
+			  ("d" "CloudFactory Docs " entry (file (concat org-directory "/cloudfactory-docs.org"))
+			   "* %?")
+			  ("p" "Hisab Kitab " entry (file (concat org-directory "/Hisab-kitab.org"))
+			   "* %?")
+			  ("g" "awesome tools " entry (file (concat org-directory "/awesome_tools.org"))
+			   "* %?")
+              )))

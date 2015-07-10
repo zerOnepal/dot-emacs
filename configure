@@ -3,18 +3,18 @@
 git submodule init
 git submodule update --depth 1
 
-cd repo/auctex
-autoreconf
-autoreconf
-./configure
-make
-rm confdefs.h
+# rho... these broke
+# cd repo/auctex
+# autoreconf
+# autoreconf
+# ./configure
+# make
+# rm confdefs.h
+# cd -
 
-cd -
 sed -n 's/.*\(http.*el\)$/\1/p' init.el > /tmp/elist
+
 cd plug-ins
 while read i; do
     wget -c "$i"
 done < /tmp/elist
-
-mv nlinum-1.1.el nlinum.el

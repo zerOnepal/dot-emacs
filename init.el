@@ -1,8 +1,16 @@
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+
+(package-initialize)
+
 ;;======================================================================
 ;; emacs config file for 25.0
+;; fork of github:rhoit/dot-emacs
 
-(setq user-full-name    "rhoit"
-      user-mail-address "rho.rhoit@gmail.com")
+(setq user-full-name    "Milan"
+      user-mail-address "oemilan@gmail.com")
 
 ;;======================================================================
 
@@ -21,6 +29,16 @@
 ;; backup configuration
 (setq backup-directory-alist (quote ((".*" . "~/.cache/emacs_backup/"))))
 (setq make-backup-files nil)
+
+;; switch-window configurations
+(global-set-key (kbd "C-x o") 'switch-window)
+
+
+;; switching window buffers
+(global-set-key [s-left] 'windmove-left)
+(global-set-key [s-right] 'windmove-right)
+(global-set-key [s-up] 'windmove-up)
+(global-set-key [s-down] 'windmove-down)
 
 ;; (setq auto-save-default nil)
 (delete-selection-mode 1)
@@ -61,8 +79,8 @@
 ;; PROGRAMMING MODES
 
 (setq-default indent-tabs-mode nil)
-(setq-default tab-width 4)
-(setq-default py-indent-offset 4)
+(setq-default tab-width 2)
+(setq-default py-indent-offset 2)
 (add-hook 'prog-mode-hook 'which-function-mode)
 (add-hook 'prog-mode-hook 'toggle-truncate-lines)
 
@@ -82,8 +100,8 @@
 ;; line-number
 ;; http://www.emacswiki.org/LineNumbers
 ;; http://elpa.gnu.org/packages/nlinum-1.1.el
-(require 'nlinum)
-(add-hook 'find-file-hook (lambda () (nlinum-mode 1)))
+;; (require 'nlinum)
+;; (add-hook 'find-file-hook (lambda () (nlinum-mode 1)))
 
 ;;----------------------------------------------------------------------
 ;; hideshowvis mode
@@ -121,22 +139,44 @@
 (add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
 (el-get 'sync)
 
+;;----------------------------------------------------------------------
+;; melpha: Milkypostman's Emacs Lisp Package Archieve
+;; https://github.com/milkypostman/melpa
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa-stable" . "http://stable.melpa.org/packages/") t)
+
+;; ;;======================================================================
+;; ;; CONFIGS
+(add-to-list 'load-path "~/.emacs.d/config/")
+(load "babel.cfg.el")
+(load "compile.cfg.el")
+;; (load "currentline.cfg.el")
+;; (load "el-get.cfg.el")
+;; (load "etag.cfg.el")
+(load "html.cfg.el")
+(load "ido.cfg.el")
+(load "org-mode.cfg.el")
+(load "py-exec.cfg.el")
+(load "python.cfg.el")
+(load "ui.cfg.el")
+(load "wordplay.el")
+(load "yas.cfg.el")
+
 
 ;;======================================================================
-;; CONFIGS
+;; CUSTOM CONFIGS
+;;----------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/config/custom/")
 
-(load "~/.emacs.d/config/babel.cfg.el")
-(load "~/.emacs.d/config/compile.cfg.el")
-;; (load "~/.emacs.d/config/currentline.cfg.el")
-(load "~/.emacs.d/config/el-get.cfg.el")
-(load "~/.emacs.d/config/etag.cfg.el")
-(load "~/.emacs.d/config/html.cfg.el")
-(load "~/.emacs.d/config/ido.cfg.el")
-(load "~/.emacs.d/config/org-mode.cfg.el")
-(load "~/.emacs.d/config/py-exec.cfg.el")
-(load "~/.emacs.d/config/python.cfg.el")
-(load "~/.emacs.d/config/ui.cfg.el")
-(load "~/.emacs.d/config/wordplay.el")
+(load-library "projectile.cfg")
+(load-library "powerline.cfg")
+(load-library "beauty.cfg.el")
+
+;; add ruby-rails config
+(load "ruby-rails.cfg.el")
+(load "flx.ido.el")
+(load "chruby.cfg.el")
 
 ;;======================================================================
 ;; BROKEN PLUGINS
@@ -160,8 +200,8 @@
 ;; highlight indentation
 ;; other color: "#aaeeba"
 ;; ver1
-(load "~/.emacs.d/00testing/hdent-antonj/highlight-indentation.el")
-(add-hook 'prog-mode-hook 'highlight-indentation-mode)
+;; (load "~/.emacs.d/00testing/hdent-antonj/highlight-indentation.el")
+;; (add-hook 'prog-mode-hook 'highlight-indentation-mode)
 ;; ver2
 ;; (add-to-list 'load-path "~/.emacs.d/00testing/hdent-mgalgs/")
 ;; (require 'indent-hints)
@@ -169,27 +209,27 @@
 
 ;;----------------------------------------------------------------------
 ;; isend-mode
-(add-to-list 'load-path "~/.emacs.d/00testing/isend-mode/")
-(require 'isend)
+;; (add-to-list 'load-path "~/.emacs.d/00testing/isend-mode/")
+;; (require 'isend)
 
 ;;----------------------------------------------------------------------
 ;; auto-dim-buffer
-(when window-system
-  (add-to-list 'load-path "~/.emacs.d/00testing/auto-dim-other-buffers.el")
-  (require 'auto-dim-other-buffers)
-  (add-hook 'after-init-hook (lambda ()
-                               (when (fboundp 'auto-dim-other-buffers-mode)
-                                 (auto-dim-other-buffers-mode t)))))
+;; (when window-system
+;;   (add-to-list 'load-path "~/.emacs.d/00testing/auto-dim-other-buffers.el")
+;;   (require 'auto-dim-other-buffers)
+;;   (add-hook 'after-init-hook (lambda ()
+;;                                (when (fboundp 'auto-dim-other-buffers-mode)
+;;                                  (auto-dim-other-buffers-mode t)))))
 
 ;;----------------------------------------------------------------------
 ;; ansi-color sequence for complitaion mode
-(add-to-list 'load-path "~/.emacs.d/00testing/colors")
-(require 'ansi-color)
-(defun colorize-compilation-buffer ()
-  (toggle-read-only)
-  (ansi-color-apply-on-region (point-min) (point-max))
-  (toggle-read-only))
-(add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
+;; (add-to-list 'load-path "~/.emacs.d/00testing/colors")
+;; (require 'ansi-color)
+;; (defun colorize-compilation-buffer ()
+;;   (toggle-read-only)
+;;   (ansi-color-apply-on-region (point-min) (point-max))
+;;   (toggle-read-only))
+;; (add-hook 'compilation-filter-hook 'colorize-compilation-buffer)
 
 ;;----------------------------------------------------------------------
 ;; smart-cursor-color-mode
@@ -212,16 +252,27 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(android-mode-sdk-dir "/opt/android")
+ '(coffee-tab-width 2)
+ '(custom-safe-themes
+   (quote
+    ("74278d14b7d5cf691c4d846a4bbf6e62d32104986f104c1e61f718f9669ec04b" "d7088a7105aa09cc68e3d058f89917e07e0505e0f4ab522a6045ec8092d67c44" "87bee8dd980504d41c043e83c24abbbdb780ce5afb9c312f6915ed0aad2630ee" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "a8245b7cc985a0610d71f9852e9f2767ad1b852c2bdea6f4aadc12cce9c4d6d0" default)))
  '(el-get-git-shallow-clone t)
  '(grep-command "grep --color -nH -r -e ")
  '(inhibit-startup-screen t)
- '(safe-local-variable-values (quote ((eval server-force-delete)))))
+ '(package-selected-packages
+   (quote
+    (minimap inflections rainbow-mode ansible-doc ansible)))
+ '(safe-local-variable-values (quote ((eval server-force-delete))))
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-markup-indent-offset 2))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#242424" :foreground "#f6f3e8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 145 :width normal :foundry "unknown" :family "DejaVu Sans Mono"))))
  '(font-lock-comment-face ((t (:slant oblique))))
  '(font-lock-function-name-face ((t (:foreground "#cae682" :slant oblique :weight bold))))
  '(font-lock-keyword-face ((t (:foreground "cyan" :weight bold))))
@@ -237,5 +288,31 @@
  '(markdown-header-face-4 ((t (:height 1.2))) t)
  '(markdown-header-face-5 ((t (:height 1.1 :weight bold))) t)
  '(markdown-header-face-6 ((t (:weight bold))) t)
+ '(mode-line ((t (:foreground "#030303" :background "#bdbdbd" :box nil))))
+ '(mode-line-inactive ((t (:foreground "#f9f9f9" :background "#666666" :box nil))))
  '(show-paren-match ((t (:inverse-video t))))
  '(which-func ((t (:inherit mode-line)))))
+
+;;------------------------------------------------
+;; Shalil Function
+;; For downloading sublimity
+;;-----------------------------------------------------------
+(defun download-get(url)
+  (let ((download-buffer (url-retrieve-synchronously url)))
+    (save-excursion
+      (set-buffer download-buffer)
+      ;; we may have to trim the http response
+      (goto-char (point-min))
+      (re-search-forward "^$" nil 'move)
+      (forward-char)
+      (delete-region (point-min) (point))
+      (write-file (concat "~/.emacs.d/plug-ins/"
+			      (car (last (split-string url "/" t)))))
+      (kill-buffer download-buffer)))
+  (byte-recompile-directory (expand-file-name "~/.emacs.d/plug-ins") 0))
+
+(add-to-list 'load-path "~/.emacs.d/plug-ins")
+
+(add-to-list 'load-path "~/.emacs.d/config/misc")
+(load "make-dir-default.cfg.el")
+(add-to-list 'find-file-not-found-functions 'my-create-non-existent-directory)
